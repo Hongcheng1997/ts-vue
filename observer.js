@@ -1,15 +1,16 @@
-function Observer(data) {
-    this.data = data;
-    this.walk(data);
-}
-Observer.prototype = {
-    walk: function (data) {
-        var self = this;
-        Object.keys(data).forEach(function (key) {
-            self.defineReactive(data, key, data[key]);
+class Observer {
+    constructor(data) {
+        this.data = data;
+        this.walk(data);
+    }
+
+    walk(data) {
+        Object.keys(data).forEach((key) => {
+            this.defineReactive(data, key, data[key]);
         });
-    },
-    defineReactive: function (data, key, val) {
+    }
+
+    defineReactive(data, key, val) {
         var dep = new Dep();
         var childObj = observe(val);
         Object.defineProperty(data, key, {
@@ -30,7 +31,7 @@ Observer.prototype = {
             }
         });
     }
-};
+}
 
 function observe(value, vm) {
     if (!value || typeof value !== 'object') {
@@ -38,18 +39,3 @@ function observe(value, vm) {
     }
     return new Observer(value);
 };
-
-function Dep() {
-    this.subs = [];
-}
-Dep.prototype = {
-    addSub: function (sub) {
-        this.subs.push(sub);
-    },
-    notify: function () {
-        this.subs.forEach(function (sub) {
-            sub.update();
-        });
-    }
-};
-Dep.target = null;
