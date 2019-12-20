@@ -8,21 +8,20 @@ function SelfVue(options) {
 
     observe(this.data);
     new Compile(options.el, this);
-    options.mounted.call(this); // 所有事情处理好后执行mounted函数
+    options.mounted.call(this);
 }
 
-SelfVue.prototype = {
-    proxyKeys: function (key) {
-        var self = this;
-        Object.defineProperty(this, key, {
-            enumerable: false,
-            configurable: true,
-            get: function proxyGetter() {
-                return self.data[key];
-            },
-            set: function proxySetter(newVal) {
-                self.data[key] = newVal;
-            }
-        });
-    }
+SelfVue.prototype.proxyKeys = function (key) {
+    var self = this;
+    Object.defineProperty(this, key, {
+        enumerable: false,
+        configurable: true,
+        get: function proxyGetter() {
+            return self.data[key];
+        },
+        set: function proxySetter(newVal) {
+            self.data[key] = newVal;
+        }
+    });
+}
 }
