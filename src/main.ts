@@ -7,11 +7,11 @@ new Vue({
         name: 'canfoo'
     },
     methods: {
-        clickMe: function () {
+        clickMe() {
             this.title = 'hello world';
         }
     },
-    mounted: function () {
+    mounted() {
         window.setTimeout(() => {
             this.title = '你好';
         }, 1000);
