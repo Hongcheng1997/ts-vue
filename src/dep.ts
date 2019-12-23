@@ -1,16 +1,17 @@
 export default class Dep {
-    // static target = null
+    static target: any
+    public subs: any = []
 
     constructor() {
         this.subs = []
     }
 
-    addSub(sub) {
+    addSub(sub: any) {
         this.subs.push(sub);
     }
 
     notify() {
-        this.subs.forEach((sub) => {
+        this.subs.forEach((sub: any) => {
             sub.update();
         });
     }
