@@ -1,5 +1,5 @@
-class Dep {
-    static target = null
+export default class Dep {
+    // static target = null
 
     constructor() {
         this.subs = []

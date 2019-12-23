@@ -1,3 +1,5 @@
+import Dep from './dep'
+
 class Observer {
     constructor(data) {
         this.data = data;
@@ -33,7 +35,7 @@ class Observer {
     }
 }
 
-function observe(value, vm) {
+export function observe(value, vm) {
     if (!value || typeof value !== 'object') {
         return;
     }

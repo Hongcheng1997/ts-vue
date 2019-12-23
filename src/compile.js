@@ -1,4 +1,6 @@
-function Compile(el, vm) {
+import Watcher from './watcher'
+
+export default function Compile(el, vm) {
     this.vm = vm;
     this.el = document.querySelector(el);
     this.fragment = null;
@@ -28,11 +30,11 @@ Compile.prototype = {
     compileElement: function (el) {
         var childNodes = el.childNodes;
         var self = this;
-        [].slice.call(childNodes).forEach(function(node) {
+        [].slice.call(childNodes).forEach(function (node) {
             var reg = /\{\{(.*)\}\}/;
             var text = node.textContent;
 
-            if (self.isElementNode(node)) {  
+            if (self.isElementNode(node)) {
                 self.compile(node);
             } else if (self.isTextNode(node) && reg.test(text)) {
                 self.compileText(node, reg.exec(text)[1]);
@@ -43,10 +45,10 @@ Compile.prototype = {
             }
         });
     },
-    compile: function(node) {
+    compile: function (node) {
         var nodeAttrs = node.attributes;
         var self = this;
-        Array.prototype.forEach.call(nodeAttrs, function(attr) {
+        Array.prototype.forEach.call(nodeAttrs, function (attr) {
             var attrName = attr.name;
             if (self.isDirective(attrName)) {
                 var exp = attr.value;
@@ -60,7 +62,7 @@ Compile.prototype = {
             }
         });
     },
-    compileText: function(node, exp) {
+    compileText: function (node, exp) {
         var self = this;
         var initText = this.vm[exp];
         this.updateText(node, initText);
@@ -84,7 +86,7 @@ Compile.prototype = {
             self.modelUpdater(node, value);
         });
 
-        node.addEventListener('input', function(e) {
+        node.addEventListener('input', function (e) {
             var newValue = e.target.value;
             if (val === newValue) {
                 return;
@@ -96,19 +98,19 @@ Compile.prototype = {
     updateText: function (node, value) {
         node.textContent = typeof value == 'undefined' ? '' : value;
     },
-    modelUpdater: function(node, value, oldValue) {
+    modelUpdater: function (node, value, oldValue) {
         node.value = typeof value == 'undefined' ? '' : value;
     },
-    isDirective: function(attr) {
+    isDirective: function (attr) {
         return attr.indexOf('v-') == 0;
     },
-    isEventDirective: function(dir) {
+    isEventDirective: function (dir) {
         return dir.indexOf('on:') === 0;
     },
     isElementNode: function (node) {
         return node.nodeType == 1;
     },
-    isTextNode: function(node) {
+    isTextNode: function (node) {
         return node.nodeType == 3;
     }
 }

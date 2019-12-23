@@ -1,4 +1,7 @@
-function SelfVue(options) {
+import { observe } from './observer'
+import Compile from './compile'
+
+export default function Vue(options) {
     this.data = options.data;
     this.methods = options.methods;
 
@@ -11,7 +14,7 @@ function SelfVue(options) {
     options.mounted.call(this);
 }
 
-SelfVue.prototype.proxyKeys = function (key) {
+Vue.prototype.proxyKeys = function (key) {
     var self = this;
     Object.defineProperty(this, key, {
         enumerable: false,
@@ -23,5 +26,4 @@ SelfVue.prototype.proxyKeys = function (key) {
             self.data[key] = newVal;
         }
     });
-}
 }

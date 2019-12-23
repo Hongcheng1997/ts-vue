@@ -1,4 +1,6 @@
-function Watcher(vm, exp, cb) {
+import Dep from './dep'
+
+export default function Watcher(vm, exp, cb) {
     this.cb = cb;
     this.vm = vm;
     this.exp = exp;
