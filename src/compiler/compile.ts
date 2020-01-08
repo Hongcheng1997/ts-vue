@@ -1,4 +1,5 @@
-import Watcher from './watcher'
+import Watcher from '../core/observer/watcher'
+import { isEventDirective, isDirective, isElementNode, isTextNode } from '../core/util/index'
 
 export default class Compile {
     vm: any;
@@ -38,11 +39,11 @@ export default class Compile {
             var reg = /\{\{(.*)\}\}/;
             var text = node.textContent;
 
-            if (this.isElementNode(node)) {
+            if (isElementNode(node)) {
                 this.compile(node);
             }
 
-            if (this.isTextNode(node) && reg.test(text)) {
+            if (isTextNode(node) && reg.test(text)) {
                 this.compileText(node, reg.exec(text)[1]);
             }
 
@@ -56,10 +57,10 @@ export default class Compile {
         var nodeAttrs = node.attributes;
         Array.prototype.forEach.call(nodeAttrs, (attr: any) => {
             var attrName = attr.name;
-            if (this.isDirective(attrName)) {
+            if (isDirective(attrName)) {
                 var exp = attr.value;
                 var dir = attrName.substring(2);
-                if (this.isEventDirective(dir)) {  // 事件指令
+                if (isEventDirective(dir)) {  // 事件指令
                     this.compileEvent(node, this.vm, exp, dir);
                 } else {  // v-model 指令
                     this.compileModel(node, this.vm, exp, dir);
@@ -109,21 +110,5 @@ export default class Compile {
 
     modelUpdater(node: any, value: any) {
         node.value = typeof value == 'undefined' ? '' : value;
-    }
-
-    isDirective(attr: any) {
-        return attr.indexOf('v-') == 0;
-    }
-
-    isEventDirective(dir: any) {
-        return dir.indexOf('on:') === 0;
-    }
-
-    isElementNode(node: any) {
-        return node.nodeType == 1;
-    }
-
-    isTextNode(node: any) {
-        return node.nodeType == 3;
     }
 }

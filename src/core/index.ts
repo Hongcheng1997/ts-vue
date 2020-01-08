@@ -1,5 +1,5 @@
-import { initState } from './observer'
-import Compile from './compile'
+import { initState } from './observer/index'
+import Compile from '../compiler/compile'
 
 export default class Vue {
     data: any;
