@@ -40,7 +40,9 @@ export default class Compile {
 
             if (this.isElementNode(node)) {
                 this.compile(node);
-            } else if (this.isTextNode(node) && reg.test(text)) {
+            }
+
+            if (this.isTextNode(node) && reg.test(text)) {
                 this.compileText(node, reg.exec(text)[1]);
             }
 
