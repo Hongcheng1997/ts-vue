@@ -16,7 +16,7 @@ class Observer {
 
     defineReactive(data: any, key: string, val: any) {
         var dep = new Dep();
-        var childObj = observe(val);
+        var childObj = initState(val);
         Object.defineProperty(data, key, {
             enumerable: true,
             configurable: true,
@@ -37,9 +37,10 @@ class Observer {
     }
 }
 
-export function observe(value: any) {
+export function initState(value: any) {
     if (!value || typeof value !== 'object') {
         return;
     }
+
     return new Observer(value);
 };

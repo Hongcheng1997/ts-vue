@@ -32,5 +32,4 @@ export default class Watcher {
         Dep.target = null;
         return value;
     }
-
 }

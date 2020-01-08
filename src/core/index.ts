@@ -1,4 +1,4 @@
-import { observe } from './observer'
+import { initState } from './observer'
 import Compile from './compile'
 
 export default class Vue {
@@ -13,9 +13,10 @@ export default class Vue {
             this.proxyKeys(key);
         });
 
-        observe(this.data);
+        // 对 data 数据做响应式处理
+        initState(this.data);
         new Compile(options.el, this);
-        options.mounted.call(this);
+        if(options.mounted) options.mounted.call(this);
     }
 
     proxyKeys(key: string) {
