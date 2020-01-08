@@ -1,18 +1,20 @@
 import Dep from './dep'
 
 class Observer {
-    constructor(data) {
+    data: any;
+
+    constructor(data: any) {
         this.data = data;
         this.walk(data);
     }
 
-    walk(data) {
+    walk(data: any) {
         Object.keys(data).forEach((key) => {
             this.defineReactive(data, key, data[key]);
         });
     }
 
-    defineReactive(data, key, val) {
+    defineReactive(data: any, key: string, val: any) {
         var dep = new Dep();
         var childObj = observe(val);
         Object.defineProperty(data, key, {
@@ -35,7 +37,7 @@ class Observer {
     }
 }
 
-export function observe(value, vm) {
+export function observe(value: any) {
     if (!value || typeof value !== 'object') {
         return;
     }
