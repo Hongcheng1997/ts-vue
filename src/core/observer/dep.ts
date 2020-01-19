@@ -1,17 +1,29 @@
+import Watcher from './watcher'
+
+let uid = 0
+
 export default class Dep {
     static target: any
-    public subs: any = []
+    public id: number
+    private subs: Watcher[] = []
 
     constructor() {
+        this.id = uid++
         this.subs = []
     }
 
-    addSub(sub: any) {
+    depend() {
+        if (Dep.target) {
+            Dep.target.addDep(this)
+        }
+    }
+
+    addSub(sub: Watcher) {
         this.subs.push(sub);
     }
 
     notify() {
-        this.subs.forEach((sub: any) => {
+        this.subs.forEach((sub: Watcher) => {
             sub.update();
         });
     }
