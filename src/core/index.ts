@@ -1,10 +1,11 @@
 import { initState } from './observer/index'
 import Compile from '../compiler/compile'
-import { VueConfig } from '../types/index'
+import { VueConfig, PlainObject } from '../types/index'
+
 
 export default class Vue {
-  data: object;
-  methods: object
+  data: PlainObject;
+  methods: PlainObject
 
   constructor(options: VueConfig) {
     this.data = options.data;

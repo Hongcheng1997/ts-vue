@@ -4,5 +4,10 @@ export interface VueConfig {
   beforeCreate?: () => void,
   created?: () => void,
   mounted?: () => void,
-  methods?: object
+  methods?: object,
+  [propsName: string]: any
+}
+
+export interface PlainObject {
+  [propsName: string]: any
 }

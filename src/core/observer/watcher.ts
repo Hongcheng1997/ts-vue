@@ -1,16 +1,17 @@
 import Dep from './dep'
+import Vue from '../index'
 
 export default class Watcher {
-  vm: any
-  exp: any
-  cb: any
+  vm: Vue
+  exp: string
+  cb: (value: any) => void
   value: any
   deps: Array<Dep>
-  depIds: any
+  depIds: Set<number>
   newDeps: Array<Dep>
-  newDepIds: any
+  newDepIds: Set<number>
 
-  constructor(vm: any, exp: any, cb: any) {
+  constructor(vm: Vue, exp: string, cb: (value: any) => void) {
     this.cb = cb;
     this.vm = vm;
     this.exp = exp;

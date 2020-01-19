@@ -3,7 +3,7 @@ import Watcher from './watcher'
 let uid = 0
 
 export default class Dep {
-  static target: any
+  static target: Watcher
   public id: number
   private subs: Watcher[]
 
