@@ -1,24 +1,31 @@
 import { initState } from './observer/index'
 import Compile from '../compiler/compile'
+import { strat, callHook } from './lifecycle/index'
 import { VueConfig, PlainObject } from '../types/index'
 
 
 export default class Vue {
+  static $options: PlainObject = Object.create(null)
   data: PlainObject;
   methods: PlainObject
+  vm: Vue = this
 
   constructor(options: VueConfig) {
     this.data = options.data;
     this.methods = options.methods;
 
+    // 合并 options，没有组件暂时做 $options 挂载
+    Vue.$options = this.mergeOptions(options)
+
     Object.keys(this.data).forEach((key) => {
       this.proxyKeys(key);
     });
-    if (options.beforeCreate) options.beforeCreate.call(this);
+
+    callHook('beforeCreate')
     initState(this.data);
-    if (options.created) options.created.call(this);
+    callHook('created')
     new Compile(options.el, this);
-    if (options.mounted) options.mounted.call(this);
+    callHook('mounted')
   }
 
   proxyKeys(key: string) {
@@ -32,5 +39,15 @@ export default class Vue {
         this.data[key] = newVal;
       }
     });
+  }
+
+  mergeOptions(child: VueConfig) {
+    let options: PlainObject = {}
+    for (let key in child) {
+      if (strat.some(hook => (hook === key))) {
+        options[key] = [child[key]]
+      }
+    }
+    return options
   }
 }
