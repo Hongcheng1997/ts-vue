@@ -1,13 +1,13 @@
 import { initState } from './observer/index'
 import Compile from '../compiler/compile'
 import { strat, callHook } from './lifecycle/index'
-import { VueConfig, PlainObject } from '../types/index'
+import { VueConfig } from '../types/index'
 
 
 export default class Vue {
-  static $options: PlainObject = Object.create(null)
-  data: PlainObject;
-  methods: PlainObject
+  static $options = Object.create(null)
+  data = Object.create(null)
+  methods = Object.create(null)
   vm: Vue = this
 
   constructor(options: VueConfig) {
@@ -42,7 +42,7 @@ export default class Vue {
   }
 
   mergeOptions(child: VueConfig) {
-    let options: PlainObject = {}
+    let options = Object.create(null)
     for (let key in child) {
       if (strat.some(hook => (hook === key))) {
         options[key] = [child[key]]

@@ -1,21 +1,20 @@
 import Dep from './dep'
-import { PlainObject } from '../../types/index'
 
 class Observer {
-  data: PlainObject;
+  data = Object.create(null)
 
-  constructor(data: PlainObject) {
+  constructor(data: any) {
     this.data = data;
     this.walk(data);
   }
 
-  walk(data: PlainObject) {
+  walk(data: any) {
     Object.keys(data).forEach((key) => {
       this.defineReactive(data, key, data[key]);
     });
   }
 
-  defineReactive(data: PlainObject, key: string, val: any) {
+  defineReactive(data: any, key: string, val: any) {
     var dep = new Dep();
     var childObj = initState(val);
     Object.defineProperty(data, key, {
@@ -38,7 +37,7 @@ class Observer {
   }
 }
 
-export function initState(value: PlainObject) {
+export function initState(value: any) {
   if (!value || typeof value !== 'object') {
     return;
   }
